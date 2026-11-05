@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 const phone = '9492958698'
 const whatsappUrl =
   'https://wa.me/919492958698?text=Hello%20Sneha%20Fancy%20Store%2C%20I%20would%20like%20to%20enquire%20about%20your%20products%2FLIC%20services.'
@@ -22,6 +24,21 @@ const gallery = [
   { title: 'Bridal Jewellery', image: 'bridal-jewellery.jpg', className: '' },
   { title: 'Cosmetics', image: 'cosmetics.jpg', className: '' },
   { title: 'Inside the Store', image: 'store.jpg', className: 'gallery-wide' },
+  {
+    title: 'Footwear',
+    image: 'footwear.jpg',
+    className: '',
+  },
+  {
+    title: 'Stationery & Books',
+    image: 'stationery.jpg',
+    className: '',
+  },
+  {
+    title: 'Plastic Items',
+    image: 'plastic-items.jpg',
+    className: '',
+  },
 ]
 
 const products = [
@@ -33,33 +50,185 @@ const products = [
   { mark: '♡', title: 'Anything on Order', text: 'Looking for something special? Ask us and we’ll source it.' },
 ]
 
-const offers = [
-  { mark: '✺', title: 'Bangles & Jewellery', text: 'Glass, lac, kundan and bridal sets, handpicked for every occasion.' },
-  { mark: '✿', title: 'Cosmetics & Beauty', text: 'Bindis, kumkum, makeup essentials and personal care.' },
-  { mark: '❋', title: 'Fancy Accessories', text: 'Hair clips, bags, gifts and traditional accessories.' },
-  { mark: '⌂', title: 'General Store', text: 'Everyday essentials and household items for the whole family.' },
-  { mark: '♧', title: 'LIC Insurance', text: 'Authorised LIC Agent offering life insurance and policy guidance.' },
-  { mark: '♡', title: 'Personal Service', text: 'Friendly advice, home delivery on request and doorstep care.' },
+const bankingServices = [
+ 'New account opening',
+ 'AEPS / Aadhaar banking',
+ 'Cash deposit & withdrawal',
+ 'Money transfer',
+ 'Bill payments & recharge',
+ 'ATM / Mini ATM',
+ 'Government schemes & pension',
 ]
 
-const bankingServices = [
-  'New account opening',
-  'AEPS / Aadhaar banking',
-  'Cash deposit & withdrawal',
-  'Money transfer',
-  'Bill payments & recharge',
-  'ATM / Mini ATM',
-  'Government schemes & pension',
+type ServiceOffer = {
+  mark: string
+  slug: string
+  title: string
+  text: string
+  intro: string
+  description: string
+  images: { image: string; alt: string }[]
+  highlights: string[]
+}
+
+const offers: ServiceOffer[] = [
+  {
+    mark: '✺',
+    slug: 'bangles-jewellery',
+    title: 'Bangles & Jewellery',
+    text: 'Glass, lac, kundan and bridal sets, handpicked for every occasion.',
+    intro: 'Find the finishing touch for celebrations, traditions and everyday outfits.',
+    description: 'Explore colorful bangles, jewellery and bridal-inspired pieces at Sneha Fancy & General Stores. Visit us to see the current collection and find a style that feels just right.',
+    images: [
+      { image: 'bangles.jpg', alt: 'Colorful bangles arranged in the store' },
+      { image: 'bridal-jewellery.jpg', alt: 'Bridal jewellery set with earrings' },
+    ],
+    highlights: ['Glass and lac bangles', 'Kundan and bridal-style sets', 'Styles for everyday wear and special occasions'],
+  },
+  {
+    mark: '✿',
+    slug: 'cosmetics-beauty',
+    title: 'Cosmetics & Beauty',
+    text: 'Bindis, kumkum, makeup essentials and personal care.',
+    intro: 'Little beauty essentials for daily routines and special moments.',
+    description: 'Browse beauty and personal-care essentials, including bindis, kumkum and makeup favorites. Product availability may vary, so feel free to ask us about a specific item.',
+    images: [{ image: 'cosmetics.jpg', alt: 'Colorful cosmetics and makeup products' }],
+    highlights: ['Bindis and kumkum', 'Makeup essentials', 'Personal-care favorites'],
+  },
+  {
+    mark: '❋',
+    slug: 'fancy-accessories',
+    title: 'Fancy Accessories',
+    text: 'Hair clips, bags, gifts and traditional accessories.',
+    intro: 'Add a personal touch with accessories, thoughtful gifts and charming finds.',
+    description: 'Discover hair accessories, bags, gifts and traditional details for yourself or someone special. Come by to explore the latest pieces in store.',
+    images: [{ image: 'fancy-accessories.jpg', alt: 'Decorative hair accessories' }],
+    highlights: ['Hair clips and accessories', 'Bags and gift articles', 'Traditional accents for special occasions'],
+  },
+  {
+    mark: '⌂',
+    slug: 'general-store',
+    title: 'General Store',
+    text: 'Everyday essentials and household items for the whole family.',
+    intro: 'Useful everyday finds and household essentials, all in one friendly neighborhood store.',
+    description: 'From practical household items to small everyday needs, our shelves bring together useful products for the family. Ask in store if you are looking for something specific.',
+    images: [
+      { image: 'store.jpg', alt: 'Shelves and displays inside Sneha Fancy & General Stores' },
+      { image: 'plastic-items.jpg', alt: 'Household storage containers' },
+    ],
+    highlights: ['Household essentials', 'Useful plasticware and storage items', 'Everyday items for the whole family'],
+  },
+  {
+    mark: '♧',
+    slug: 'lic-insurance',
+    title: 'LIC Insurance',
+    text: 'Authorised LIC Agent offering life insurance and policy guidance.',
+    intro: 'Get friendly help understanding LIC policy information and the next steps.',
+    description: 'As an authorised LIC agent, we can help you learn about available plans, documentation and application steps. Policy benefits and eligibility depend on LIC terms; please contact us for details.',
+    images: [{ image: 'lic-logo.png', alt: 'Life Insurance Corporation of India logo' }],
+    highlights: ['Guidance on LIC policy options', 'Help with documentation and application steps', 'Personal assistance with your questions'],
+  },
+  {
+    mark: '₹',
+    slug: 'banking-services',
+    title: 'Banking Services',
+    text: 'Fino banking, Aadhaar services, cash deposits and withdrawals, bill payments and more.',
+    intro: 'Convenient everyday banking support, close to home in Morampalli Banjar.',
+    description: 'Visit our Fino banking point for help with available Aadhaar-enabled and everyday banking services. Service availability and transaction requirements may vary; bring valid identification and ask us before you visit.',
+    images: [{ image: 'banking-services.jpg', alt: 'Mobile phone used for a contactless payment' }],
+    highlights: bankingServices,
+  },
 ]
 
 function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   return <span aria-hidden="true" className="arrow">{diagonal ? '↗' : '→'}</span>
 }
 
-function App() {
+function returnToServices(event: React.MouseEvent<HTMLAnchorElement>) {
+  const previousPage = document.referrer ? new URL(document.referrer) : null
+  if (previousPage?.origin === window.location.origin && !previousPage.searchParams.has('service')) {
+    event.preventDefault()
+    window.history.back()
+  }
+}
+
+function ServiceDetailPage({ offer }: { offer: ServiceOffer }) {
+  const inquiryUrl = `https://wa.me/919492958698?text=${encodeURIComponent(`Hello Sneha Fancy Store, I would like to know more about ${offer.title}.`)}`
+
   return (
     <>
-      <header className="site-header">
+      <header className="site-header is-scrolled detail-header">
+        <a className="brand" href="./" aria-label="Sneha Fancy Store home">
+          <img src="./assets/logo.png" alt="" />
+          <span><strong>Sneha</strong><em>FANCY STORE</em></span>
+        </a>
+        <nav className="main-nav" aria-label="Main navigation">
+          <a href="./#gallery">Gallery</a>
+          <a href="./#products">Products</a>
+          <a href="./#services">Services</a>
+          <a href="./#about">About</a>
+          <a href="./#contact">Contact</a>
+        </nav>
+        <a className="header-call" href={`tel:${phone}`}><span aria-hidden="true">☎</span> Call Now</a>
+      </header>
+
+      <main className="detail-page" id="top">
+        <section className="detail-section">
+          <a className="detail-back" href="./#services" onClick={returnToServices}><Arrow /> All services</a>
+          <div className="detail-layout">
+            <div className={`detail-gallery${offer.images.length > 1 ? ' has-secondary' : ''}${offer.slug === 'lic-insurance' ? ' is-logo' : ''}`}>
+              {offer.images.map((image) => (
+                <figure key={image.image}>
+                  <img src={`./assets/${image.image}`} alt={image.alt} />
+                  <figcaption>{offer.title} · Sneha Fancy</figcaption>
+                </figure>
+              ))}
+            </div>
+            <div className="detail-copy">
+              <p className="eyebrow"><span className="detail-mark">{offer.mark}</span> A closer look</p>
+              <h1>{offer.title}</h1>
+              <p className="detail-intro">{offer.intro}</p>
+              <p className="detail-description">{offer.description}</p>
+              <h2>Explore this section</h2>
+              <ul>{offer.highlights.map((highlight) => <li key={highlight}>{highlight}</li>)}</ul>
+              <div className="detail-actions">
+                <a className="button button-gold" href={inquiryUrl} target="_blank" rel="noreferrer">Ask about {offer.title} <Arrow diagonal /></a>
+                <a className="text-link" href="./#services" onClick={returnToServices}>Back to all services <Arrow /></a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer className="detail-footer"><a href="./">Sneha Fancy &amp; General Stores</a><span>Morampalli Banjar · Bhadrachalam</span></footer>
+      <a className="whatsapp-float" href={inquiryUrl} target="_blank" rel="noreferrer" aria-label={`Ask about ${offer.title} on WhatsApp`}><span aria-hidden="true">◉</span><span>Chat with us</span></a>
+    </>
+  )
+}
+
+function App() {
+  const [headerScrolled, setHeaderScrolled] = useState(false)
+  const activeOfferSlug = new URLSearchParams(window.location.search).get('service')
+  const activeOffer = offers.find((offer) => offer.slug === activeOfferSlug)
+
+  useEffect(() => {
+    const updateHeader = () => setHeaderScrolled(window.scrollY > 40)
+    updateHeader()
+    window.addEventListener('scroll', updateHeader, { passive: true })
+    return () => window.removeEventListener('scroll', updateHeader)
+  }, [])
+
+  useEffect(() => {
+    if (!activeOffer) return
+    const previousTitle = document.title
+    document.title = `${activeOffer.title} | Sneha Fancy & General Stores`
+    return () => { document.title = previousTitle }
+  }, [activeOffer])
+
+  if (activeOffer) return <ServiceDetailPage offer={activeOffer} />
+
+  return (
+    <>
+      <header className={`site-header${headerScrolled ? ' is-scrolled' : ''}`}>
         <a className="brand" href="#top" aria-label="Sneha Fancy Store home">
           <img src="./assets/logo.png" alt="" />
           <span><strong>Sneha</strong><em>FANCY STORE</em></span>
@@ -89,8 +258,8 @@ function App() {
                 <a className="button button-outline" href="#products">Explore our store <Arrow /></a>
               </div>
               <div className="hero-trust"><span>✦ Family owned</span><i /> <span>✦ Quality you can trust</span><i /> <span>✦ LIC authorised agent</span></div>
+              <div className="hero-note"><span className="note-copy">Made for <strong>every occasion</strong></span></div>
             </div>
-            <div className="hero-note"><span className="note-star">✳</span><span>Made for<br /><strong>every occasion</strong></span></div>
           </div>
           <a className="scroll-cue" href="#gallery"><span /> Scroll to explore</a>
         </section>
@@ -109,7 +278,10 @@ function App() {
             {gallery.map((item, index) => (
               <figure className={`gallery-card ${item.className}`} key={item.title}>
                 <img src={`./assets/${item.image}`} alt={item.title} loading="lazy" />
-                <figcaption><span>0{index + 1} <b>·</b> SNEHA FANCY</span><strong>{item.title}</strong></figcaption>
+                <figcaption>
+                  <span>0{index + 1} <b>·</b> SNEHA FANCY</span>
+                  <strong>{item.title}</strong>
+                </figcaption>
               </figure>
             ))}
           </div>
@@ -137,9 +309,9 @@ function App() {
             <p>From a tiny bindi to a lifelong insurance plan — we’re here for you.</p>
           </div>
           <div className="offer-grid">
-            {offers.map((item) => <article className="offer-card" key={item.title}>
+            {offers.map((item) => <a className="offer-card" href={`?service=${item.slug}`} key={item.slug} aria-label={`Explore ${item.title}`}>
               <span className="offer-mark">{item.mark}</span><div><h3>{item.title}</h3><p>{item.text}</p></div><span className="offer-arrow">↗</span>
-            </article>)}
+            </a>)}
           </div>
           <div className="lic-feature">
             <div className="lic-logo-wrap"><img src="./assets/lic-logo.png" alt="Life Insurance Corporation of India" loading="lazy" /></div>
@@ -170,9 +342,17 @@ function App() {
         <section className="contact-section" id="contact">
           <div className="contact-heading"><p className="eyebrow">Come say hello</p><h2>Your neighbourhood store<br /><em>is just around the corner.</em></h2><p>We’d love to welcome you. Drop by, call, or message us anytime.</p></div>
           <div className="contact-grid">
-            <article className="contact-card address-card"><span className="contact-icon">⌖</span><p className="eyebrow">Find our store</p><h3>Come on in.</h3><address>Sneha Fancy Store<br />Morampalli Banjar, Bhurghamphad<br />Bhadrachalam, Telangana 507114</address><a className="contact-link" href={mapUrl} target="_blank" rel="noreferrer">Open in Google Maps <Arrow diagonal /></a></article>
-            <article className="contact-card call-card"><span className="contact-icon">↗</span><p className="eyebrow">Call or WhatsApp</p><h3>We’re here<br />to help.</h3><a className="phone-number" href={`tel:${phone}`}>+91 {phone}</a><div className="contact-actions"><a href={`tel:${phone}`}>Call now <Arrow /></a><a href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp <Arrow diagonal /></a></div></article>
-            <article className="contact-card review-card"><div className="review-top"><div><p className="eyebrow">A little love goes a long way</p><h3>Find us on<br />Google.</h3><p>Enjoyed your visit? We’d be so grateful if you shared a review.</p></div><img src="./assets/google-review-qr.jpg" alt="QR code to leave a Google review for Sneha Fancy Store" loading="lazy" /></div><span className="review-note">Scan to leave a review <span>✳</span></span></article>
+            <article className="contact-card contact-info-card">
+              <div className="contact-detail">
+                <span className="contact-icon" aria-hidden="true">⌖</span>
+                <div><p className="eyebrow">Address</p><address>Sneha Fancy Store, Morampalli Banjar,<br />Bhurghamphad, Bhadrachalam,<br />Bhadradri-Kothagudem, 507114</address><a className="contact-link" href={mapUrl} target="_blank" rel="noreferrer">Open in Google Maps <Arrow diagonal /></a></div>
+              </div>
+              <div className="contact-detail">
+                <span className="contact-icon" aria-hidden="true">☎</span>
+                <div><p className="eyebrow">Call / WhatsApp</p><a className="phone-number" href={`tel:${phone}`}>{phone}</a><div className="contact-actions"><a href={whatsappUrl} target="_blank" rel="noreferrer">WhatsApp Us</a><a href={`tel:${phone}`}>Call Now</a></div></div>
+              </div>
+            </article>
+            <article className="contact-card review-card"><p className="eyebrow">Review us</p><h3>Find us on Google</h3><img src="./assets/google-review-qr.png" alt="Google review QR code for Sneha Fancy Store" loading="lazy" /><span className="review-note">Scan to leave a review</span></article>
           </div>
         </section>
       </main>
