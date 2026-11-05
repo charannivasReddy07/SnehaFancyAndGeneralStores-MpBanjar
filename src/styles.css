@@ -152,8 +152,8 @@ h1,h2,h3,p { margin-top: 0; }
 .offer-card:hover .offer-arrow { color: var(--wine); transform: translate(2px, -2px); }
 .lic-feature { margin-top: 64px; padding: 42px 7%; min-height: 275px; display: grid; grid-template-columns: 1.1fr 1.6fr .7fr; align-items: center; gap: 35px; background: #efe7d9; position: relative; overflow: hidden; }
 .lic-feature::after { content: '✳'; position: absolute; right: 21%; top: -76px; color: rgba(107,41,43,.035); font-size: 290px; line-height: 1; pointer-events: none; }
-.lic-logo-wrap { display: flex; align-items: center; justify-content: center; }
-.lic-logo-wrap img { max-width: 155px; max-height: 118px; object-fit: contain; mix-blend-mode: multiply; transition: transform .45s ease, filter .45s ease; }
+.lic-logo-wrap { min-width: 0; display: flex; align-items: center; justify-content: center; }
+.lic-logo-wrap img { width: 100%; max-width: 155px; height: auto; max-height: 118px; object-fit: contain; mix-blend-mode: multiply; transition: transform .45s ease, filter .45s ease; }
 .lic-logo-wrap:hover img { transform: scale(1.06); filter: drop-shadow(0 8px 8px rgba(74, 31, 34, .12)); }
 .lic-copy { position: relative; z-index: 1; }
 .lic-copy .eyebrow { font-size: 8px; margin-bottom: 9px; }

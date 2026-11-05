@@ -314,7 +314,7 @@ function App() {
             </a>)}
           </div>
           <div className="lic-feature">
-            <div className="lic-logo-wrap"><img src="./assets/lic-logo.png" alt="Life Insurance Corporation of India" loading="lazy" /></div>
+            <div className="lic-logo-wrap"><img src="./assets/lic-logo.png" alt="Life Insurance Corporation of India" width="155" height="87" loading="lazy" /></div>
             <div className="lic-copy"><span className="eyebrow">A promise for tomorrow</span><h3>Protect what<br /><em>matters most.</em></h3><p>As an authorised LIC Agent, we’re happy to help you understand your options and find the right policy for your family.</p><a href={whatsappUrl} target="_blank" rel="noreferrer" className="text-link">Talk to us about LIC <Arrow /></a></div>
             <div className="lic-seal"><span>LIC</span><small>AUTHORISED<br />AGENT</small></div>
           </div>
